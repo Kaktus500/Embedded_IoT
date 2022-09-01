@@ -1,0 +1,12 @@
+"./Clock.obj"
+"./CortexM.obj"
+"../I2CB1.obj"
+"./Nokia5110.obj"
+"./OPT3001.obj"
+"./OPT3001_TestMain.obj"
+"./SSD1306.obj"
+"./UART0.obj"
+"./startup_msp432p401r_ccs.obj"
+"./system_msp432p401r.obj"
+"../msp432p401r.cmd"
+-llibc.a

@@ -1,0 +1,13 @@
+"./Clock.obj"
+"./CortexM.obj"
+"./I2CB1.obj"
+"./LaunchPad.obj"
+"./SSD1306_I2C.obj"
+"./Seeed_HC12main.obj"
+"./SysTickInts.obj"
+"./UART0.obj"
+"./UART1.obj"
+"./startup_msp432p401r_ccs.obj"
+"./system_msp432p401r.obj"
+"../msp432p401r.cmd"
+-llibc.a
