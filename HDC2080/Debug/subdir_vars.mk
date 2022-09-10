@@ -10,13 +10,13 @@ OBJ_SRCS += \
 ../I2CB1.obj 
 
 C_SRCS += \
-/Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/MSP432/inc/Clock.c \
-/Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/MSP432/inc/CortexM.c \
-/Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/MSP432/inc/HDC2080.c \
+/Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/Embedded_IoT/inc/Clock.c \
+/Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/Embedded_IoT/inc/CortexM.c \
+/Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/Embedded_IoT/inc/HDC2080.c \
 ../HDC2080_TestMain.c \
-/Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/MSP432/inc/Nokia5110.c \
-/Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/MSP432/inc/SSD1306.c \
-/Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/MSP432/inc/UART0.c \
+/Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/Embedded_IoT/inc/Nokia5110.c \
+/Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/Embedded_IoT/inc/SSD1306.c \
+/Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/Embedded_IoT/inc/UART0.c \
 ../startup_msp432p401r_ccs.c \
 ../system_msp432p401r.c 
 
@@ -65,13 +65,13 @@ C_DEPS__QUOTED += \
 "system_msp432p401r.d" 
 
 C_SRCS__QUOTED += \
-"/Users/pauldelseith/Documents/TUM/Master/UT Austin/Courses/Embedded IoT/HW/MSP432/inc/Clock.c" \
-"/Users/pauldelseith/Documents/TUM/Master/UT Austin/Courses/Embedded IoT/HW/MSP432/inc/CortexM.c" \
-"/Users/pauldelseith/Documents/TUM/Master/UT Austin/Courses/Embedded IoT/HW/MSP432/inc/HDC2080.c" \
+"/Users/pauldelseith/Documents/TUM/Master/UT Austin/Courses/Embedded IoT/HW/Embedded_IoT/inc/Clock.c" \
+"/Users/pauldelseith/Documents/TUM/Master/UT Austin/Courses/Embedded IoT/HW/Embedded_IoT/inc/CortexM.c" \
+"/Users/pauldelseith/Documents/TUM/Master/UT Austin/Courses/Embedded IoT/HW/Embedded_IoT/inc/HDC2080.c" \
 "../HDC2080_TestMain.c" \
-"/Users/pauldelseith/Documents/TUM/Master/UT Austin/Courses/Embedded IoT/HW/MSP432/inc/Nokia5110.c" \
-"/Users/pauldelseith/Documents/TUM/Master/UT Austin/Courses/Embedded IoT/HW/MSP432/inc/SSD1306.c" \
-"/Users/pauldelseith/Documents/TUM/Master/UT Austin/Courses/Embedded IoT/HW/MSP432/inc/UART0.c" \
+"/Users/pauldelseith/Documents/TUM/Master/UT Austin/Courses/Embedded IoT/HW/Embedded_IoT/inc/Nokia5110.c" \
+"/Users/pauldelseith/Documents/TUM/Master/UT Austin/Courses/Embedded IoT/HW/Embedded_IoT/inc/SSD1306.c" \
+"/Users/pauldelseith/Documents/TUM/Master/UT Austin/Courses/Embedded IoT/HW/Embedded_IoT/inc/UART0.c" \
 "../startup_msp432p401r_ccs.c" \
 "../system_msp432p401r.c" 
 

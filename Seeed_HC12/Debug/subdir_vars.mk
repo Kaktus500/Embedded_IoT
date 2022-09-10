@@ -7,15 +7,15 @@ CMD_SRCS += \
 ../msp432p401r.cmd 
 
 C_SRCS += \
-/Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/MSP432/inc/Clock.c \
-/Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/MSP432/inc/CortexM.c \
-/Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/MSP432/inc/I2CB1.c \
-/Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/MSP432/inc/LaunchPad.c \
-/Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/MSP432/inc/SSD1306_I2C.c \
+/Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/Embedded_IoT/inc/Clock.c \
+/Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/Embedded_IoT/inc/CortexM.c \
+/Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/Embedded_IoT/inc/I2CB1.c \
+/Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/Embedded_IoT/inc/LaunchPad.c \
+/Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/Embedded_IoT/inc/SSD1306_I2C.c \
 ../Seeed_HC12main.c \
-/Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/MSP432/inc/SysTickInts.c \
-/Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/MSP432/inc/UART0.c \
-/Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/MSP432/inc/UART1.c \
+/Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/Embedded_IoT/inc/SysTickInts.c \
+/Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/Embedded_IoT/inc/UART0.c \
+/Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/Embedded_IoT/inc/UART1.c \
 ../startup_msp432p401r_ccs.c \
 ../system_msp432p401r.c 
 
@@ -72,15 +72,15 @@ C_DEPS__QUOTED += \
 "system_msp432p401r.d" 
 
 C_SRCS__QUOTED += \
-"/Users/pauldelseith/Documents/TUM/Master/UT Austin/Courses/Embedded IoT/HW/MSP432/inc/Clock.c" \
-"/Users/pauldelseith/Documents/TUM/Master/UT Austin/Courses/Embedded IoT/HW/MSP432/inc/CortexM.c" \
-"/Users/pauldelseith/Documents/TUM/Master/UT Austin/Courses/Embedded IoT/HW/MSP432/inc/I2CB1.c" \
-"/Users/pauldelseith/Documents/TUM/Master/UT Austin/Courses/Embedded IoT/HW/MSP432/inc/LaunchPad.c" \
-"/Users/pauldelseith/Documents/TUM/Master/UT Austin/Courses/Embedded IoT/HW/MSP432/inc/SSD1306_I2C.c" \
+"/Users/pauldelseith/Documents/TUM/Master/UT Austin/Courses/Embedded IoT/HW/Embedded_IoT/inc/Clock.c" \
+"/Users/pauldelseith/Documents/TUM/Master/UT Austin/Courses/Embedded IoT/HW/Embedded_IoT/inc/CortexM.c" \
+"/Users/pauldelseith/Documents/TUM/Master/UT Austin/Courses/Embedded IoT/HW/Embedded_IoT/inc/I2CB1.c" \
+"/Users/pauldelseith/Documents/TUM/Master/UT Austin/Courses/Embedded IoT/HW/Embedded_IoT/inc/LaunchPad.c" \
+"/Users/pauldelseith/Documents/TUM/Master/UT Austin/Courses/Embedded IoT/HW/Embedded_IoT/inc/SSD1306_I2C.c" \
 "../Seeed_HC12main.c" \
-"/Users/pauldelseith/Documents/TUM/Master/UT Austin/Courses/Embedded IoT/HW/MSP432/inc/SysTickInts.c" \
-"/Users/pauldelseith/Documents/TUM/Master/UT Austin/Courses/Embedded IoT/HW/MSP432/inc/UART0.c" \
-"/Users/pauldelseith/Documents/TUM/Master/UT Austin/Courses/Embedded IoT/HW/MSP432/inc/UART1.c" \
+"/Users/pauldelseith/Documents/TUM/Master/UT Austin/Courses/Embedded IoT/HW/Embedded_IoT/inc/SysTickInts.c" \
+"/Users/pauldelseith/Documents/TUM/Master/UT Austin/Courses/Embedded IoT/HW/Embedded_IoT/inc/UART0.c" \
+"/Users/pauldelseith/Documents/TUM/Master/UT Austin/Courses/Embedded IoT/HW/Embedded_IoT/inc/UART1.c" \
 "../startup_msp432p401r_ccs.c" \
 "../system_msp432p401r.c" 
 

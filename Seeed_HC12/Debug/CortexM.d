@@ -1,6 +1,6 @@
 # FIXED
 
-CortexM.obj: /Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/MSP432/inc/CortexM.c
+CortexM.obj: /Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/Embedded_IoT/inc/CortexM.c
 CortexM.obj: /Applications/ti/ccs1200/ccs/tools/compiler/ti-cgt-arm_20.2.6.LTS/include/stdint.h
 CortexM.obj: /Applications/ti/ccs1200/ccs/tools/compiler/ti-cgt-arm_20.2.6.LTS/include/_ti_config.h
 CortexM.obj: /Applications/ti/ccs1200/ccs/tools/compiler/ti-cgt-arm_20.2.6.LTS/include/linkage.h
@@ -12,7 +12,7 @@ CortexM.obj: /Applications/ti/ccs1200/ccs/tools/compiler/ti-cgt-arm_20.2.6.LTS/i
 CortexM.obj: /Applications/ti/ccs1200/ccs/tools/compiler/ti-cgt-arm_20.2.6.LTS/include/machine/_stdint.h
 CortexM.obj: /Applications/ti/ccs1200/ccs/tools/compiler/ti-cgt-arm_20.2.6.LTS/include/sys/_stdint.h
 
-/Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/MSP432/inc/CortexM.c:
+/Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/Embedded_IoT/inc/CortexM.c:
 
 /Applications/ti/ccs1200/ccs/tools/compiler/ti-cgt-arm_20.2.6.LTS/include/stdint.h:
 

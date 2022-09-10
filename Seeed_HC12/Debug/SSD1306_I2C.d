@@ -1,6 +1,6 @@
 # FIXED
 
-SSD1306_I2C.obj: /Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/MSP432/inc/SSD1306_I2C.c
+SSD1306_I2C.obj: /Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/Embedded_IoT/inc/SSD1306_I2C.c
 SSD1306_I2C.obj: /Applications/ti/ccs1200/ccs/tools/compiler/ti-cgt-arm_20.2.6.LTS/include/stdint.h
 SSD1306_I2C.obj: /Applications/ti/ccs1200/ccs/tools/compiler/ti-cgt-arm_20.2.6.LTS/include/_ti_config.h
 SSD1306_I2C.obj: /Applications/ti/ccs1200/ccs/tools/compiler/ti-cgt-arm_20.2.6.LTS/include/linkage.h
@@ -19,11 +19,11 @@ SSD1306_I2C.obj: /Applications/ti/ccs1200/ccs/ccs_base/arm/include/CMSIS/core_cm
 SSD1306_I2C.obj: /Applications/ti/ccs1200/ccs/ccs_base/arm/include/CMSIS/cmsis_compiler.h
 SSD1306_I2C.obj: /Applications/ti/ccs1200/ccs/ccs_base/arm/include/CMSIS/cmsis_ccs.h
 SSD1306_I2C.obj: /Applications/ti/ccs1200/ccs/ccs_base/arm/include/system_msp432p401r.h
-SSD1306_I2C.obj: /Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/MSP432/inc/SSD1306_I2C.h
-SSD1306_I2C.obj: /Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/MSP432/inc/Clock.h
-SSD1306_I2C.obj: /Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/MSP432/inc/I2CB1.h
+SSD1306_I2C.obj: /Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/Embedded_IoT/inc/SSD1306_I2C.h
+SSD1306_I2C.obj: /Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/Embedded_IoT/inc/Clock.h
+SSD1306_I2C.obj: /Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/Embedded_IoT/inc/I2CB1.h
 
-/Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/MSP432/inc/SSD1306_I2C.c:
+/Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/Embedded_IoT/inc/SSD1306_I2C.c:
 
 /Applications/ti/ccs1200/ccs/tools/compiler/ti-cgt-arm_20.2.6.LTS/include/stdint.h:
 
@@ -61,9 +61,9 @@ SSD1306_I2C.obj: /Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Emb
 
 /Applications/ti/ccs1200/ccs/ccs_base/arm/include/system_msp432p401r.h:
 
-/Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/MSP432/inc/SSD1306_I2C.h:
+/Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/Embedded_IoT/inc/SSD1306_I2C.h:
 
-/Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/MSP432/inc/Clock.h:
+/Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/Embedded_IoT/inc/Clock.h:
 
-/Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/MSP432/inc/I2CB1.h:
+/Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/Embedded_IoT/inc/I2CB1.h:
 

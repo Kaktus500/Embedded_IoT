@@ -1,6 +1,6 @@
 # FIXED
 
-Clock.obj: /Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/MSP432/inc/Clock.c
+Clock.obj: /Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/Embedded_IoT/inc/Clock.c
 Clock.obj: /Applications/ti/ccs1200/ccs/tools/compiler/ti-cgt-arm_20.2.6.LTS/include/stdint.h
 Clock.obj: /Applications/ti/ccs1200/ccs/tools/compiler/ti-cgt-arm_20.2.6.LTS/include/_ti_config.h
 Clock.obj: /Applications/ti/ccs1200/ccs/tools/compiler/ti-cgt-arm_20.2.6.LTS/include/linkage.h
@@ -20,7 +20,7 @@ Clock.obj: /Applications/ti/ccs1200/ccs/ccs_base/arm/include/CMSIS/cmsis_compile
 Clock.obj: /Applications/ti/ccs1200/ccs/ccs_base/arm/include/CMSIS/cmsis_ccs.h
 Clock.obj: /Applications/ti/ccs1200/ccs/ccs_base/arm/include/system_msp432p401r.h
 
-/Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/MSP432/inc/Clock.c:
+/Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/Embedded_IoT/inc/Clock.c:
 
 /Applications/ti/ccs1200/ccs/tools/compiler/ti-cgt-arm_20.2.6.LTS/include/stdint.h:
 

@@ -1,6 +1,6 @@
 # FIXED
 
-LaunchPad.obj: /Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/MSP432/inc/LaunchPad.c
+LaunchPad.obj: /Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/Embedded_IoT/inc/LaunchPad.c
 LaunchPad.obj: /Applications/ti/ccs1200/ccs/ccs_base/arm/include/msp.h
 LaunchPad.obj: /Applications/ti/ccs1200/ccs/ccs_base/arm/include/msp432p401r.h
 LaunchPad.obj: /Applications/ti/ccs1200/ccs/tools/compiler/ti-cgt-arm_20.2.6.LTS/include/stdint.h
@@ -20,7 +20,7 @@ LaunchPad.obj: /Applications/ti/ccs1200/ccs/ccs_base/arm/include/CMSIS/cmsis_com
 LaunchPad.obj: /Applications/ti/ccs1200/ccs/ccs_base/arm/include/CMSIS/cmsis_ccs.h
 LaunchPad.obj: /Applications/ti/ccs1200/ccs/ccs_base/arm/include/system_msp432p401r.h
 
-/Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/MSP432/inc/LaunchPad.c:
+/Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/Embedded_IoT/inc/LaunchPad.c:
 
 /Applications/ti/ccs1200/ccs/ccs_base/arm/include/msp.h:
 

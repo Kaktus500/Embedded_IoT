@@ -7,11 +7,11 @@ CMD_SRCS += \
 ../msp432p401r.cmd 
 
 C_SRCS += \
-/Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/MSP432/inc/BSP.c \
-/Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/MSP432/inc/Clock.c \
-/Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/MSP432/inc/CortexM.c \
+/Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/Embedded_IoT/inc/BSP.c \
+/Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/Embedded_IoT/inc/Clock.c \
+/Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/Embedded_IoT/inc/CortexM.c \
 ../Lab1.c \
-/Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/MSP432/inc/Profile.c \
+/Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/Embedded_IoT/inc/Profile.c \
 ../Texas.c \
 ../startup_msp432p401r_ccs.c \
 ../system_msp432p401r.c 
@@ -57,11 +57,11 @@ C_DEPS__QUOTED += \
 "system_msp432p401r.d" 
 
 C_SRCS__QUOTED += \
-"/Users/pauldelseith/Documents/TUM/Master/UT Austin/Courses/Embedded IoT/HW/MSP432/inc/BSP.c" \
-"/Users/pauldelseith/Documents/TUM/Master/UT Austin/Courses/Embedded IoT/HW/MSP432/inc/Clock.c" \
-"/Users/pauldelseith/Documents/TUM/Master/UT Austin/Courses/Embedded IoT/HW/MSP432/inc/CortexM.c" \
+"/Users/pauldelseith/Documents/TUM/Master/UT Austin/Courses/Embedded IoT/HW/Embedded_IoT/inc/BSP.c" \
+"/Users/pauldelseith/Documents/TUM/Master/UT Austin/Courses/Embedded IoT/HW/Embedded_IoT/inc/Clock.c" \
+"/Users/pauldelseith/Documents/TUM/Master/UT Austin/Courses/Embedded IoT/HW/Embedded_IoT/inc/CortexM.c" \
 "../Lab1.c" \
-"/Users/pauldelseith/Documents/TUM/Master/UT Austin/Courses/Embedded IoT/HW/MSP432/inc/Profile.c" \
+"/Users/pauldelseith/Documents/TUM/Master/UT Austin/Courses/Embedded IoT/HW/Embedded_IoT/inc/Profile.c" \
 "../Texas.c" \
 "../startup_msp432p401r_ccs.c" \
 "../system_msp432p401r.c" 

@@ -10,14 +10,14 @@ ASM_SRCS += \
 ../osasm.asm 
 
 C_SRCS += \
-/Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/MSP432/inc/BSP.c \
-/Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/MSP432/inc/Clock.c \
-/Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/MSP432/inc/CortexM.c \
-/Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/MSP432/inc/Profile.c \
-/Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/MSP432/inc/SIM7600G.c \
+/Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/Embedded_IoT/inc/BSP.c \
+/Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/Embedded_IoT/inc/Clock.c \
+/Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/Embedded_IoT/inc/CortexM.c \
+/Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/Embedded_IoT/inc/Profile.c \
+/Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/Embedded_IoT/inc/SIM7600G.c \
 ../SIM7600main.c \
-/Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/MSP432/inc/UART0.c \
-/Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/MSP432/inc/UART1.c \
+/Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/Embedded_IoT/inc/UART0.c \
+/Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/Embedded_IoT/inc/UART1.c \
 ../os.c \
 ../startup_msp432p401r_ccs.c \
 ../system_msp432p401r.c 
@@ -83,14 +83,14 @@ ASM_DEPS__QUOTED += \
 "osasm.d" 
 
 C_SRCS__QUOTED += \
-"/Users/pauldelseith/Documents/TUM/Master/UT Austin/Courses/Embedded IoT/HW/MSP432/inc/BSP.c" \
-"/Users/pauldelseith/Documents/TUM/Master/UT Austin/Courses/Embedded IoT/HW/MSP432/inc/Clock.c" \
-"/Users/pauldelseith/Documents/TUM/Master/UT Austin/Courses/Embedded IoT/HW/MSP432/inc/CortexM.c" \
-"/Users/pauldelseith/Documents/TUM/Master/UT Austin/Courses/Embedded IoT/HW/MSP432/inc/Profile.c" \
-"/Users/pauldelseith/Documents/TUM/Master/UT Austin/Courses/Embedded IoT/HW/MSP432/inc/SIM7600G.c" \
+"/Users/pauldelseith/Documents/TUM/Master/UT Austin/Courses/Embedded IoT/HW/Embedded_IoT/inc/BSP.c" \
+"/Users/pauldelseith/Documents/TUM/Master/UT Austin/Courses/Embedded IoT/HW/Embedded_IoT/inc/Clock.c" \
+"/Users/pauldelseith/Documents/TUM/Master/UT Austin/Courses/Embedded IoT/HW/Embedded_IoT/inc/CortexM.c" \
+"/Users/pauldelseith/Documents/TUM/Master/UT Austin/Courses/Embedded IoT/HW/Embedded_IoT/inc/Profile.c" \
+"/Users/pauldelseith/Documents/TUM/Master/UT Austin/Courses/Embedded IoT/HW/Embedded_IoT/inc/SIM7600G.c" \
 "../SIM7600main.c" \
-"/Users/pauldelseith/Documents/TUM/Master/UT Austin/Courses/Embedded IoT/HW/MSP432/inc/UART0.c" \
-"/Users/pauldelseith/Documents/TUM/Master/UT Austin/Courses/Embedded IoT/HW/MSP432/inc/UART1.c" \
+"/Users/pauldelseith/Documents/TUM/Master/UT Austin/Courses/Embedded IoT/HW/Embedded_IoT/inc/UART0.c" \
+"/Users/pauldelseith/Documents/TUM/Master/UT Austin/Courses/Embedded IoT/HW/Embedded_IoT/inc/UART1.c" \
 "../os.c" \
 "../startup_msp432p401r_ccs.c" \
 "../system_msp432p401r.c" 

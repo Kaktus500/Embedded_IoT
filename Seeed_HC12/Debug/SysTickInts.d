@@ -1,6 +1,6 @@
 # FIXED
 
-SysTickInts.obj: /Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/MSP432/inc/SysTickInts.c
+SysTickInts.obj: /Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/Embedded_IoT/inc/SysTickInts.c
 SysTickInts.obj: /Applications/ti/ccs1200/ccs/tools/compiler/ti-cgt-arm_20.2.6.LTS/include/stdint.h
 SysTickInts.obj: /Applications/ti/ccs1200/ccs/tools/compiler/ti-cgt-arm_20.2.6.LTS/include/_ti_config.h
 SysTickInts.obj: /Applications/ti/ccs1200/ccs/tools/compiler/ti-cgt-arm_20.2.6.LTS/include/linkage.h
@@ -20,7 +20,7 @@ SysTickInts.obj: /Applications/ti/ccs1200/ccs/ccs_base/arm/include/CMSIS/cmsis_c
 SysTickInts.obj: /Applications/ti/ccs1200/ccs/ccs_base/arm/include/CMSIS/cmsis_ccs.h
 SysTickInts.obj: /Applications/ti/ccs1200/ccs/ccs_base/arm/include/system_msp432p401r.h
 
-/Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/MSP432/inc/SysTickInts.c:
+/Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/Embedded_IoT/inc/SysTickInts.c:
 
 /Applications/ti/ccs1200/ccs/tools/compiler/ti-cgt-arm_20.2.6.LTS/include/stdint.h:
 
