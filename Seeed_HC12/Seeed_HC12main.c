@@ -68,13 +68,13 @@ policies, either expressed or implied, of the FreeBSD Project.
 #include <stdint.h>
 #include <stdio.h>
 #include "msp.h"
-#include "../inc/CortexM.h"
-#include "../inc/SysTickInts.h"
-#include "../inc/LaunchPad.h"
-#include "../inc/Clock.h"
-#include "../inc/UART0.h"
-#include "../inc/UART1.h"
-#include "../inc/SSD1306_I2C.h"
+#include "..\inc\CortexM.h"
+#include "..\inc\SysTickInts.h"
+#include "..\inc\LaunchPad.h"
+#include "..\inc\Clock.h"
+#include "..\inc\UART0.h"
+#include "..\inc\UART1.h"
+#include "..\inc\SSD1306_I2C.h"
 volatile uint32_t Time,MainCount;
 #define LEDOUT (*((volatile uint8_t *)(0x42098040)))
 // P3->OUT is 8-bit port at 0x4000.4C22
@@ -85,6 +85,10 @@ volatile uint32_t Time,MainCount;
 char HC12data;
 uint32_t Message;
 int Flag; // semaphore
+uint8_t seqInd = 0;
+uint8_t btnLatch = 0;
+uint8_t sendFlg = 0;
+uint8_t oldInput = 0;
 // every 10ms
 
 void simple_delay(uint32_t max){
@@ -93,49 +97,69 @@ void simple_delay(uint32_t max){
 
 void SysTick_Handler(void){
   uint8_t in;
-  LEDOUT ^= 0x01;       // toggle P1.0
-  LEDOUT ^= 0x01;       // toggle P1.0
   Time = Time + 1;
   uint8_t ThisInput = LaunchPad_Input();   // either button
-  if(ThisInput){
+  if(ThisInput && (!btnLatch)){
+      btnLatch = 1;
+  }
+
+  if(ThisInput && !oldInput && !sendFlg)
+      sendFlg = 1;
+  else if(ThisInput && !oldInput && sendFlg)
+      sendFlg = 0;
+
+  if(sendFlg){
     if((Time%100) == 0){ // 1 Hz
-      HC12data = 0x30; // toggle '0' to '1'
-      if(HC12data == 0x31){
-        Message = 1; // S1
-        Flag = 1;    // signal
-       }else{
-        Message = 0; // S0
-        Flag = 1;    // signal
+        //LaunchPad_Output(0);
+      if(seqInd == 0){
+          HC12data = '0';
+          Message = 0;
+          LaunchPad_Output(4);
+          UART1_OutChar(HC12data);
+          seqInd++;
+          Flag = 1;
+      }else if(seqInd == 1){
+          HC12data = '1';
+          Message = 1;
+          LaunchPad_Output(4);
+          UART1_OutChar(HC12data);
+          seqInd++;
+          Flag = 1;
+      }else if(seqInd == 2){
+          HC12data = '2';
+          Message = 2;
+          LaunchPad_Output(4);
+          UART1_OutChar(HC12data);
+          seqInd = 0;
+          Flag = 1;
+      }else{
+          seqInd = 0;
+          btnLatch = 0;
       }
-      UART1_OutChar(HC12data);
-      simple_delay(1000000);
-      HC12data = 0x31;
-      UART1_OutChar(HC12data);
-      simple_delay(1000000);
-      HC12data = 0x32;
-      UART1_OutChar(HC12data);
-      simple_delay(1000000);
-      HC12data = 0x033;
-      UART1_OutChar(HC12data);
-      simple_delay(1000000);
     }
   }
   in = UART1_InCharNonBlock();
   if(in){
     switch(in){
       case '0':
-        Message = 2; // R0
+        Message = 3; // R0
         Flag = 1;    // signal
-        LaunchPad_Output(0); // off
+        LaunchPad_Output(1); // off
         break;
       case '1':
-        Message = 3; // R1
+        Message = 4; // R1
         Flag = 1;    // signal
-        LaunchPad_Output(BLUE);
+        LaunchPad_Output(1);
+        break;
+      case '2':
+        Message = 5; // R1
+        Flag = 1;    // signal
+        LaunchPad_Output(1);
         break;
     }
   }
   LEDOUT ^= 0x01;       // toggle P1.0
+  oldInput = ThisInput;
 }
 
 void HC12_ReadAllInput(void){uint8_t in;
@@ -199,11 +223,12 @@ void main(void){int num=0;
   SSD1306_OutString("\nHold switch for 1s\n");
   while(1){ // USER Output in main (not ISR)
     WaitForInterrupt();
+
      // foreground thread
     MainCount++;
     if(Flag){ // wait on semaphore
       num++;
-      if(num == 1){
+      if(num%8 == 1){
         SSD1306_OutClear();
       }
       SSD1306_OutUDec16(num);
@@ -213,19 +238,33 @@ void main(void){int num=0;
         case 0:
           printf("S0\n");
           SSD1306_OutString("S0\n");
+          LaunchPad_Output(0);
           break;
         case 1:
-          printf("S1\n");
-          SSD1306_OutString("S1\n");
-          break;
+            printf("S1\n");
+            SSD1306_OutString("S1\n");
+            LaunchPad_Output(0);
+            break;
         case 2:
+            printf("S2\n");
+            SSD1306_OutString("S2\n");
+            LaunchPad_Output(0);
+            break;
+        case 3:
           printf("R0\n");
           SSD1306_OutString("R0\n");
+          LaunchPad_Output(0);
           break;
-        case 3:
+        case 4:
           printf("R1\n");
           SSD1306_OutString("R1\n");
+          LaunchPad_Output(0);
           break;
+        case 5:
+            printf("R2\n");
+            SSD1306_OutString("R2\n");
+            LaunchPad_Output(0);
+            break;
       }
     }
   }
