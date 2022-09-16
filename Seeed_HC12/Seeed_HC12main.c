@@ -96,17 +96,26 @@ void simple_delay(uint32_t max){
 }
 
 struct msgTemplate{
-    uint8_t src_address;
-    uint8_t dst_address;
-    uint8_t crc;
-    uint8_t header;
-    char*   msg;
-    uint8_t termination;
+    //uint8_t src_address;
+    uint16_t dst_address;
+    uint8_t  header; //length(0x1~0x8), acknowledge(0xff), broadcast(0xaa) response(0xfd, 0xfe)
+    uint8_t  crc; // sum % 19
+    char*    msg;
 };
-const struct msgTemplate defaultMsg = {0,0,0,0,0,0};
-const struct msgTemplate msgSend = {42, 1, 76, 5, "seeed", 49};
-const struct msgTemplate msgAck  = {0,0,0,0,0,0};
+const struct msgTemplate defaultMsg = {0,0,0,0};
+const struct msgTemplate msgSend = {0xfeed, 5, 5, "seeed"}; // 's' = 115, 'e' = 101, 'd' = 100
+const struct msgTemplate msgDebug = {0xfeed, 5, 17, "seeed"}; // for debug
+const struct msgTemplate msgAck  = {0xfeed, 0xff, 5, "seeed"}; // acknowledgment
+const struct msgTemplate msgBroadcast = {0xfeed, 0xaa, 5, "seeed"}; // broadcast message
+const struct msgTemplate msgRespond1 = {0xfeed, 0xfd, 5, "seeed"}; // broadcast respond for the second device
+const struct msgTemplate msgRespond2 = {0xfeed, 0xfe, 5, "seeed"}; // broadcast respond for the third device
+struct msgTemplate msgReceived;
 char* receiveBuffer;
+int   validMsg;
+const uint16_t idx[3] = {0xfeed, 0xbead, 0xcafe};
+
+uint16_t thisID = 0xbead;
+int device_count = 1;
 
 /*msgSend.src_address = 0; // source = board 0
 msgSend.dst_address = 1; // destination = board 1
@@ -121,18 +130,87 @@ msgAck.crc = 76; //valid
 msgAck.header = 255; //acknowledge*/
 
 void Send_Msg(struct msgTemplate msgSend){
-  HC12data = msgSend.src_address;
+  HC12data = (msgSend.dst_address & 0xFF);
   UART1_OutChar(HC12data);
-  HC12data = msgSend.dst_address;
-  UART1_OutChar(HC12data);
-  HC12data = msgSend.crc;
+  HC12data = (msgSend.dst_address & 0xFF00) >> 8;
   UART1_OutChar(HC12data);
   HC12data = msgSend.header;
   UART1_OutChar(HC12data);
-  UART1_OutString(msgSend.msg);
-  HC12data = msgSend.termination;
+  HC12data = msgSend.crc;
   UART1_OutChar(HC12data);
+  UART1_OutString(msgSend.msg);
 };
+
+void Read_Msg(char* msgRead){
+    uint8_t in;
+    in = UART1_InCharNonBlock();
+    uint8_t cnt = 0;
+     while(in){
+       if(cnt < 256){
+           *msgRead = in;
+           msgRead++;
+       }
+       in = UART1_InCharNonBlock();
+       cnt++;
+       simple_delay(100000);
+    }
+}
+
+int Parse_Check_Msg(char* msgRead){
+    //1 = receiving normal message
+    //2 = receiving acknowledgment
+    //3 = receiving broadcast (only device 1)
+    //4 = receiving response to broadcast for assigning idx[1]
+    //5 = receiving response to broadcast for assigning idx[2]
+    //0 = not receiving valid message
+    msgReceived.dst_address = 0;
+    msgReceived.dst_address = msgRead[1];
+    msgReceived.dst_address = msgReceived.dst_address << 8;
+    msgReceived.dst_address += msgRead[0];
+
+    //if(msgReceived.dst_address != idx[0] && msgReceived.dst_address != idx[1] && msgReceived.dst_address != idx[2])
+    if(msgReceived.dst_address != thisID)
+        return 0;
+
+    msgReceived.header = msgRead[2];
+    msgReceived.crc = msgRead[3];
+
+    if(msgReceived.header == 0xff){
+        if(msgReceived.crc == msgSend.crc)
+            return 2;
+        else
+            return 0;
+    }
+    else if(msgReceived.header == 0xaa){
+        if(thisID == idx[0])
+            return 3;
+        else
+            return 0;
+    }
+    else if(msgReceived.header == 0xfd){
+        return 4;
+    }
+    else if(msgReceived.header == 0xfe){
+        return 5;
+    }
+
+    uint8_t cnt = msgRead[2];
+    uint8_t cnt_inv = 0;
+    int msgSum = 0;
+
+    while(cnt > 0){
+        *(msgReceived.msg + cnt_inv) = msgRead[4+cnt_inv];
+        msgSum += msgRead[4 + cnt_inv];
+        cnt--;
+        cnt_inv++;
+    }
+    //crc check
+    msgSum = msgSum % 19;
+    if(msgSum != msgReceived.crc)
+        return 0;
+
+    return 1;
+}
 
 void SysTick_Handler(void){
   uint8_t in;
@@ -208,11 +286,47 @@ void SysTick_Handler(void){
         }
       }
     }
+  msgReceived = defaultMsg;
   Read_Msg(receiveBuffer);
-  if (*receiveBuffer){
-      printf("%d\n", *receiveBuffer);
-      *receiveBuffer = 0;
+  if(*receiveBuffer)
+      printf("%s", receiveBuffer);
+
+  validMsg = Parse_Check_Msg(receiveBuffer);
+  if(validMsg == 1){
+      msgReceived.header = 0xff;
+      Send_Msg(msgReceived);
+      Message = 3;
+      Flag = 1;
+      LaunchPad_Output(1);
   }
+  else if(validMsg == 2){
+      Message = 6;
+      Flag = 1;
+      LaunchPad_Output(1);
+  }
+  else if(validMsg == 3){
+      Message = 7;
+      Flag = 1;
+      LaunchPad_Output(1);
+  }
+  else if(validMsg == 4){
+      Message = 8;
+      Flag = 1;
+      LaunchPad_Output(1);
+  }
+  else if(validMsg == 5){
+      Message = 9;
+      Flag = 1;
+      LaunchPad_Output(1);
+  }
+  validMsg = 0;
+  for(int ii = 0; ii < 256; ii++)
+      *(receiveBuffer+ii) = 0;
+  /*else{
+      Message = 4;
+      Flag = 1;
+      LaunchPad_Output(2);
+  }*/
   //in = UART1_InCharNonBlock();
   /*if(in){
     switch(in){
@@ -246,19 +360,6 @@ void HC12_ReadAllInput(void){uint8_t in;
     UART0_OutChar(in);
     in = UART1_InCharNonBlock();
   }
-}
-
-void Read_Msg(char* msgRead){
-    uint8_t in;
-    in = UART1_InCharNonBlock();
-    uint8_t cnt = 0;
-     while(in && cnt<13){
-       *msgRead = in;
-       msgRead++;
-       in = UART1_InCharNonBlock();
-       cnt++;
-       simple_delay(100000);
-    }
 }
 
 void HC12_Init(uint32_t baud){
@@ -310,9 +411,17 @@ void main(void){int num=0;
   EnableInterrupts();
   printf("\nSeeed_HC12 example -Valvano\n");
   HC12_Init(UART1_BAUD_9600);
+  //broadcast, setting idx
+  /*Send_Msg(msgBroadcast);
+  for(int ii = 0; ii < 5000000; ii++){
+      if(Flag){
+
+      }
+  }*/
+  //
   SSD1306_OutString(" RF_XMT init done\n");
   SSD1306_OutString("\nHold switch for 1s\n");
-  receiveBuffer = (char *) malloc(13);
+  receiveBuffer = (char *) malloc(256);
   *receiveBuffer = 0;
 
   /*struct msgTemplate msgSend = defaultMsg;
@@ -372,6 +481,11 @@ void main(void){int num=0;
         case 5:
             printf("R2\n");
             SSD1306_OutString("R2\n");
+            LaunchPad_Output(0);
+            break;
+        case 6:
+            printf("A0\n");
+            SSD1306_OutString("A0\n");
             LaunchPad_Output(0);
             break;
       }
