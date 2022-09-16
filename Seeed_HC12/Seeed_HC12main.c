@@ -95,6 +95,45 @@ void simple_delay(uint32_t max){
     for(uint32_t i=0; i<max; i++){}
 }
 
+struct msgTemplate{
+    uint8_t src_address;
+    uint8_t dst_address;
+    uint8_t crc;
+    uint8_t header;
+    char*   msg;
+    uint8_t termination;
+};
+const struct msgTemplate defaultMsg = {0,0,0,0,0,0};
+const struct msgTemplate msgSend = {42, 1, 76, 5, "seeed", 49};
+const struct msgTemplate msgAck  = {0,0,0,0,0,0};
+char* receiveBuffer;
+
+/*msgSend.src_address = 0; // source = board 0
+msgSend.dst_address = 1; // destination = board 1
+msgSend.crc = 76; // valid
+msgSend.header = 5; //length = 5
+msgSend.msg = "seeed";
+msgSend.termination = '1'; //terminating
+
+msgAck.src_address = 1;
+msgAck.dst_address = 0;
+msgAck.crc = 76; //valid
+msgAck.header = 255; //acknowledge*/
+
+void Send_Msg(struct msgTemplate msgSend){
+  HC12data = msgSend.src_address;
+  UART1_OutChar(HC12data);
+  HC12data = msgSend.dst_address;
+  UART1_OutChar(HC12data);
+  HC12data = msgSend.crc;
+  UART1_OutChar(HC12data);
+  HC12data = msgSend.header;
+  UART1_OutChar(HC12data);
+  UART1_OutString(msgSend.msg);
+  HC12data = msgSend.termination;
+  UART1_OutChar(HC12data);
+};
+
 void SysTick_Handler(void){
   uint8_t in;
   Time = Time + 1;
@@ -108,7 +147,7 @@ void SysTick_Handler(void){
   else if(ThisInput && !oldInput && sendFlg)
       sendFlg = 0;
 
-  if(sendFlg){
+  /*if(sendFlg){
     if((Time%100) == 0){ // 1 Hz
         //LaunchPad_Output(0);
       if(seqInd == 0){
@@ -137,9 +176,45 @@ void SysTick_Handler(void){
           btnLatch = 0;
       }
     }
+  }*/
+  if(sendFlg){
+      if((Time%100) == 0){ // 1 Hz
+        if(seqInd == 0){
+            Send_Msg(msgSend);
+            Message = 0;
+            LaunchPad_Output(4);
+            //UART1_OutChar(HC12data);
+            seqInd++;
+            Flag = 1;
+        }else if(seqInd == 1){
+            //HC12data = '1';
+            Send_Msg(msgSend);
+            Message = 1;
+            LaunchPad_Output(4);
+            //UART1_OutChar(HC12data);
+            seqInd++;
+            Flag = 1;
+        }else if(seqInd == 2){
+            //HC12data = '2';
+            Send_Msg(msgSend);
+            Message = 2;
+            LaunchPad_Output(4);
+            //UART1_OutChar(HC12data);
+            seqInd = 0;
+            Flag = 1;
+        }else{
+            seqInd = 0;
+            btnLatch = 0;
+        }
+      }
+    }
+  Read_Msg(receiveBuffer);
+  if (*receiveBuffer){
+      printf("%d\n", *receiveBuffer);
+      *receiveBuffer = 0;
   }
-  in = UART1_InCharNonBlock();
-  if(in){
+  //in = UART1_InCharNonBlock();
+  /*if(in){
     switch(in){
       case '0':
         Message = 3; // R0
@@ -156,8 +231,10 @@ void SysTick_Handler(void){
         Flag = 1;    // signal
         LaunchPad_Output(1);
         break;
+      default:
+        printf(in);
     }
-  }
+  }*/
   LEDOUT ^= 0x01;       // toggle P1.0
   oldInput = ThisInput;
 }
@@ -170,6 +247,20 @@ void HC12_ReadAllInput(void){uint8_t in;
     in = UART1_InCharNonBlock();
   }
 }
+
+void Read_Msg(char* msgRead){
+    uint8_t in;
+    in = UART1_InCharNonBlock();
+    uint8_t cnt = 0;
+     while(in && cnt<13){
+       *msgRead = in;
+       msgRead++;
+       in = UART1_InCharNonBlock();
+       cnt++;
+       simple_delay(100000);
+    }
+}
+
 void HC12_Init(uint32_t baud){
   P3->SEL0 &= ~0x01;
   P3->SEL1 &= ~0x01;    // configure P3.0 as GPIO
@@ -221,6 +312,24 @@ void main(void){int num=0;
   HC12_Init(UART1_BAUD_9600);
   SSD1306_OutString(" RF_XMT init done\n");
   SSD1306_OutString("\nHold switch for 1s\n");
+  receiveBuffer = (char *) malloc(13);
+  *receiveBuffer = 0;
+
+  /*struct msgTemplate msgSend = defaultMsg;
+  struct msgTemplate msgAck  = defaultMsg;
+
+  msgSend.src_address = 0; // source = board 0
+  msgSend.dst_address = 1; // destination = board 1
+  msgSend.crc = 76; // valid
+  msgSend.header = 5; //length = 5
+  msgSend.msg = "seeed";
+  msgSend.termination = '1'; //terminating
+
+  msgAck.src_address = 1;
+  msgAck.dst_address = 0;
+  msgAck.crc = 76; //valid
+  msgAck.header = 255; //acknowledge*/
+
   while(1){ // USER Output in main (not ISR)
     WaitForInterrupt();
 
