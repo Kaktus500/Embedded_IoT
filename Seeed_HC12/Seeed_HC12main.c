@@ -98,19 +98,19 @@ void simple_delay(uint32_t max){
 }
 
 struct msgTemplate{
-    //uint8_t src_address;
     uint16_t dst_address;
+    uint16_t src_address;
     uint8_t  header; //length(0x1~0x8), acknowledge(0xff), broadcast(0xaa) response(0xfd, 0xfe)
     uint8_t  crc; // sum % 19
     char*    msg;
 };
-const struct msgTemplate defaultMsg = {0,0,0,0};
-const struct msgTemplate msgSend = {0xfeed, 5, 5, "seeed"}; // 's' = 115, 'e' = 101, 'd' = 100
-const struct msgTemplate msgDebug = {0xfeed, 5, 17, "seeed"}; // for debug
-const struct msgTemplate msgAck  = {0xfeed, 0xff, 5, "seeed"}; // acknowledgment
-const struct msgTemplate msgBroadcast = {0xfeed, 0xaa, 5, "seeed"}; // broadcast message
-const struct msgTemplate msgRespond1 = {0xfeed, 0xfd, 5, "seeed"}; // broadcast respond for the second device
-const struct msgTemplate msgRespond2 = {0xfeed, 0xfe, 5, "seeed"}; // broadcast respond for the third device
+const struct msgTemplate defaultMsg = {0,0,0,0,0};
+const struct msgTemplate msgSend = {0xbead, 0xfeed, 5, 5, "seeed"}; // 's' = 115, 'e' = 101, 'd' = 100
+const struct msgTemplate msgDebug = {0xfeed, 0xfeed, 5, 17, "seeed"}; // for debug
+const struct msgTemplate msgAck  = {0xfeed, 0xbead, 0xff, 5, "seeed"}; // acknowledgment
+const struct msgTemplate msgBroadcast = {0xfeed, 0xfeed, 0xaa, 5, "seeed"}; // broadcast message
+const struct msgTemplate msgRespond1 = {0xfeed, 0xfeed, 0xfd, 5, "seeed"}; // broadcast respond for the second device
+const struct msgTemplate msgRespond2 = {0xfeed, 0xfeed, 0xfe, 5, "seeed"}; // broadcast respond for the third device
 struct msgTemplate msgReceived;
 char* receiveBuffer;
 int   validMsg;
@@ -135,6 +135,10 @@ void Send_Msg(struct msgTemplate msgSend){
   HC12data = (msgSend.dst_address & 0xFF);
   UART1_OutChar(HC12data);
   HC12data = (msgSend.dst_address & 0xFF00) >> 8;
+  UART1_OutChar(HC12data);
+  HC12data = (msgSend.src_address & 0xFF);
+  UART1_OutChar(HC12data);
+  HC12data = (msgSend.src_address & 0xFF00) >> 8;
   UART1_OutChar(HC12data);
   HC12data = msgSend.header;
   UART1_OutChar(HC12data);
@@ -175,8 +179,13 @@ int Parse_Check_Msg(char* msgRead){
     if(msgReceived.dst_address != thisID)
         return 0;
 
-    msgReceived.header = msgRead[2];
-    msgReceived.crc = msgRead[3];
+    msgReceived.src_address = 0;
+    msgReceived.src_address = msgRead[3];
+    msgReceived.src_address = msgReceived.src_address << 8;
+    msgReceived.src_address += msgRead[2];
+
+    msgReceived.header = msgRead[4];
+    msgReceived.crc = msgRead[5];
 
     if(msgReceived.header == 0xff){
         if(msgReceived.crc == msgSend.crc)
@@ -197,13 +206,13 @@ int Parse_Check_Msg(char* msgRead){
         return 5;
     }
 
-    uint8_t cnt = msgRead[2];
+    uint8_t cnt = msgReceived.header;
     uint8_t cnt_inv = 0;
     int msgSum = 0;
 
     while(cnt > 0){
-        *(msgReceived.msg + cnt_inv) = msgRead[4+cnt_inv];
-        msgSum += msgRead[4 + cnt_inv];
+        *(msgReceived.msg + cnt_inv) = msgRead[6 + cnt_inv];
+        msgSum += msgRead[6 + cnt_inv];
         cnt--;
         cnt_inv++;
     }
@@ -299,9 +308,11 @@ void SysTick_Handler(void){
 
   validMsg = Parse_Check_Msg(receiveBuffer);
   if(validMsg == 1){
-      if((Time/100)%2)
-          msgReceived.dst_address = 0xffff;
+      //if((Time/100)%2)
+          //msgReceived.dst_address = 0xffff;
       msgReceived.header = 0xff;
+      msgReceived.dst_address = msgReceived.src_address;
+      msgReceived.src_address = thisID;
       Send_Msg(msgReceived);
       Message = 3;
       Flag = 1;
@@ -315,6 +326,7 @@ void SysTick_Handler(void){
       waitCnt = 0;
   }
   else if(validMsg == 3){
+      simple_delay(1000000);
       if(deviceCnt == 1){
           Send_Msg(msgRespond1);
           deviceCnt++;
@@ -429,6 +441,8 @@ void HC12_Init(uint32_t baud){
 void main(void){int num=0;
   Clock_Init48MHz();        // running on crystal
   Time = MainCount = 0;
+  receiveBuffer = (char *) malloc(256);
+  *receiveBuffer = 0;
   SysTick_Init(480000,2);   // set up SysTick for 100 Hz interrupts
   LaunchPad_Init();         // P1.0 is red LED on LaunchPad
   UART0_Initprintf();       // serial port to PC for debugging
@@ -446,6 +460,7 @@ void main(void){int num=0;
   Send_Msg(msgBroadcast);
   for(int ii = 0; ii < 8000000; ii++){
       if(Flag){
+          Flag = 0;
           if(Message == 8){
               SSD1306_OutClear();
               SSD1306_OutString("idx[1] assigned\n");
@@ -454,13 +469,12 @@ void main(void){int num=0;
               SSD1306_OutClear();
               SSD1306_OutString("idx[2] assigned\n");
           }
+          break;
       }
   }
   //
   SSD1306_OutString(" RF_XMT init done\n");
   SSD1306_OutString("\nHold switch for 1s\n");
-  receiveBuffer = (char *) malloc(256);
-  *receiveBuffer = 0;
 
   /*struct msgTemplate msgSend = defaultMsg;
   struct msgTemplate msgAck  = defaultMsg;
