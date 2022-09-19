@@ -88,6 +88,8 @@ int Flag; // semaphore
 uint8_t seqInd = 0;
 uint8_t btnLatch = 0;
 uint8_t sendFlg = 0;
+uint8_t waitFlg = 0;
+uint8_t waitCnt = 0;
 uint8_t oldInput = 0;
 // every 10ms
 
@@ -114,8 +116,8 @@ char* receiveBuffer;
 int   validMsg;
 const uint16_t idx[3] = {0xfeed, 0xbead, 0xcafe};
 
-uint16_t thisID = 0xbead;
-int device_count = 1;
+uint16_t thisID = 0xfeed;
+int deviceCnt = 1;
 
 /*msgSend.src_address = 0; // source = board 0
 msgSend.dst_address = 1; // destination = board 1
@@ -152,7 +154,7 @@ void Read_Msg(char* msgRead){
        }
        in = UART1_InCharNonBlock();
        cnt++;
-       simple_delay(100000);
+       simple_delay(10000);
     }
 }
 
@@ -169,6 +171,7 @@ int Parse_Check_Msg(char* msgRead){
     msgReceived.dst_address += msgRead[0];
 
     //if(msgReceived.dst_address != idx[0] && msgReceived.dst_address != idx[1] && msgReceived.dst_address != idx[2])
+    //    return 0;
     if(msgReceived.dst_address != thisID)
         return 0;
 
@@ -264,6 +267,7 @@ void SysTick_Handler(void){
             //UART1_OutChar(HC12data);
             seqInd++;
             Flag = 1;
+            waitFlg = 1;
         }else if(seqInd == 1){
             //HC12data = '1';
             Send_Msg(msgSend);
@@ -272,6 +276,7 @@ void SysTick_Handler(void){
             //UART1_OutChar(HC12data);
             seqInd++;
             Flag = 1;
+            waitFlg = 1;
         }else if(seqInd == 2){
             //HC12data = '2';
             Send_Msg(msgSend);
@@ -280,6 +285,7 @@ void SysTick_Handler(void){
             //UART1_OutChar(HC12data);
             seqInd = 0;
             Flag = 1;
+            waitFlg = 1;
         }else{
             seqInd = 0;
             btnLatch = 0;
@@ -293,6 +299,8 @@ void SysTick_Handler(void){
 
   validMsg = Parse_Check_Msg(receiveBuffer);
   if(validMsg == 1){
+      if((Time/100)%2)
+          msgReceived.dst_address = 0xffff;
       msgReceived.header = 0xff;
       Send_Msg(msgReceived);
       Message = 3;
@@ -303,18 +311,30 @@ void SysTick_Handler(void){
       Message = 6;
       Flag = 1;
       LaunchPad_Output(1);
+      waitFlg = 0;
+      waitCnt = 0;
   }
   else if(validMsg == 3){
+      if(deviceCnt == 1){
+          Send_Msg(msgRespond1);
+          deviceCnt++;
+      }
+      else if(deviceCnt == 2){
+          Send_Msg(msgRespond2);
+          deviceCnt++;
+      }
       Message = 7;
       Flag = 1;
       LaunchPad_Output(1);
   }
   else if(validMsg == 4){
+      thisID = idx[1];
       Message = 8;
       Flag = 1;
       LaunchPad_Output(1);
   }
   else if(validMsg == 5){
+      thisID = idx[2];
       Message = 9;
       Flag = 1;
       LaunchPad_Output(1);
@@ -322,6 +342,17 @@ void SysTick_Handler(void){
   validMsg = 0;
   for(int ii = 0; ii < 256; ii++)
       *(receiveBuffer+ii) = 0;
+
+  if(waitFlg){
+      waitCnt++;
+      if(waitCnt >= 50){//wait acknowledgment for 150 ms
+          Message = 10;
+          Flag = 1;
+          LaunchPad_Output(1);
+          waitCnt = 0;
+          waitFlg = 0;
+      }
+  }
   /*else{
       Message = 4;
       Flag = 1;
@@ -412,12 +443,19 @@ void main(void){int num=0;
   printf("\nSeeed_HC12 example -Valvano\n");
   HC12_Init(UART1_BAUD_9600);
   //broadcast, setting idx
-  /*Send_Msg(msgBroadcast);
-  for(int ii = 0; ii < 5000000; ii++){
+  Send_Msg(msgBroadcast);
+  for(int ii = 0; ii < 8000000; ii++){
       if(Flag){
-
+          if(Message == 8){
+              SSD1306_OutClear();
+              SSD1306_OutString("idx[1] assigned\n");
+          }
+          else if(Message == 9){
+              SSD1306_OutClear();
+              SSD1306_OutString("idx[2] assigned\n");
+          }
       }
-  }*/
+  }
   //
   SSD1306_OutString(" RF_XMT init done\n");
   SSD1306_OutString("\nHold switch for 1s\n");
@@ -486,6 +524,16 @@ void main(void){int num=0;
         case 6:
             printf("A0\n");
             SSD1306_OutString("A0\n");
+            LaunchPad_Output(0);
+            break;
+        case 7:
+            printf("New device\n");
+            SSD1306_OutString("New device\n");
+            LaunchPad_Output(0);
+            break;
+        case 10:
+            printf("F0\n");
+            SSD1306_OutString("F0\n");
             LaunchPad_Output(0);
             break;
       }
