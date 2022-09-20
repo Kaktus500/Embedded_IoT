@@ -2,30 +2,28 @@
 # Automatically-generated file. Do not edit!
 ################################################################################
 
-SHELL = cmd.exe
-
 # Add inputs and outputs from these tool invocations to the build variables 
 CMD_SRCS += \
 ../msp432p401r.cmd 
 
 C_SRCS += \
-C:/Users/Jerry/Documents/GitHub/Embedded_IoT/inc/AP.c \
-C:/Users/Jerry/Documents/GitHub/Embedded_IoT/inc/Bump.c \
-C:/Users/Jerry/Documents/GitHub/Embedded_IoT/inc/Clock.c \
-C:/Users/Jerry/Documents/GitHub/Embedded_IoT/inc/CortexM.c \
-C:/Users/Jerry/Documents/GitHub/Embedded_IoT/inc/GPIO.c \
-C:/Users/Jerry/Documents/GitHub/Embedded_IoT/inc/I2CB1.c \
-C:/Users/Jerry/Documents/GitHub/Embedded_IoT/inc/LPF.c \
-C:/Users/Jerry/Documents/GitHub/Embedded_IoT/inc/LaunchPad.c \
-C:/Users/Jerry/Documents/GitHub/Embedded_IoT/inc/Motor.c \
-C:/Users/Jerry/Documents/GitHub/Embedded_IoT/inc/PWM.c \
+/Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/Embedded_IoT/inc/AP.c \
+/Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/Embedded_IoT/inc/Bump.c \
+/Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/Embedded_IoT/inc/Clock.c \
+/Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/Embedded_IoT/inc/CortexM.c \
+/Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/Embedded_IoT/inc/GPIO.c \
+/Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/Embedded_IoT/inc/I2CB1.c \
+/Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/Embedded_IoT/inc/LPF.c \
+/Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/Embedded_IoT/inc/LaunchPad.c \
+/Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/Embedded_IoT/inc/Motor.c \
+/Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/Embedded_IoT/inc/PWM.c \
 ../RSLK_BLEmain.c \
-C:/Users/Jerry/Documents/GitHub/Embedded_IoT/inc/SSD1306.c \
-C:/Users/Jerry/Documents/GitHub/Embedded_IoT/inc/TimerA1.c \
-C:/Users/Jerry/Documents/GitHub/Embedded_IoT/inc/UART0.c \
-C:/Users/Jerry/Documents/GitHub/Embedded_IoT/inc/UART1.c \
-C:/Users/Jerry/Documents/GitHub/Embedded_IoT/inc/blinker.c \
-C:/Users/Jerry/Documents/GitHub/Embedded_IoT/inc/opt3101.c \
+/Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/Embedded_IoT/inc/SSD1306.c \
+/Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/Embedded_IoT/inc/TimerA1.c \
+/Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/Embedded_IoT/inc/UART0.c \
+/Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/Embedded_IoT/inc/UART1.c \
+/Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/Embedded_IoT/inc/blinker.c \
+/Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/Embedded_IoT/inc/opt3101.c \
 ../startup_msp432p401r_ccs.c \
 ../system_msp432p401r.c 
 
@@ -114,23 +112,23 @@ C_DEPS__QUOTED += \
 "system_msp432p401r.d" 
 
 C_SRCS__QUOTED += \
-"C:/Users/Jerry/Documents/GitHub/Embedded_IoT/inc/AP.c" \
-"C:/Users/Jerry/Documents/GitHub/Embedded_IoT/inc/Bump.c" \
-"C:/Users/Jerry/Documents/GitHub/Embedded_IoT/inc/Clock.c" \
-"C:/Users/Jerry/Documents/GitHub/Embedded_IoT/inc/CortexM.c" \
-"C:/Users/Jerry/Documents/GitHub/Embedded_IoT/inc/GPIO.c" \
-"C:/Users/Jerry/Documents/GitHub/Embedded_IoT/inc/I2CB1.c" \
-"C:/Users/Jerry/Documents/GitHub/Embedded_IoT/inc/LPF.c" \
-"C:/Users/Jerry/Documents/GitHub/Embedded_IoT/inc/LaunchPad.c" \
-"C:/Users/Jerry/Documents/GitHub/Embedded_IoT/inc/Motor.c" \
-"C:/Users/Jerry/Documents/GitHub/Embedded_IoT/inc/PWM.c" \
+"/Users/pauldelseith/Documents/TUM/Master/UT Austin/Courses/Embedded IoT/HW/Embedded_IoT/inc/AP.c" \
+"/Users/pauldelseith/Documents/TUM/Master/UT Austin/Courses/Embedded IoT/HW/Embedded_IoT/inc/Bump.c" \
+"/Users/pauldelseith/Documents/TUM/Master/UT Austin/Courses/Embedded IoT/HW/Embedded_IoT/inc/Clock.c" \
+"/Users/pauldelseith/Documents/TUM/Master/UT Austin/Courses/Embedded IoT/HW/Embedded_IoT/inc/CortexM.c" \
+"/Users/pauldelseith/Documents/TUM/Master/UT Austin/Courses/Embedded IoT/HW/Embedded_IoT/inc/GPIO.c" \
+"/Users/pauldelseith/Documents/TUM/Master/UT Austin/Courses/Embedded IoT/HW/Embedded_IoT/inc/I2CB1.c" \
+"/Users/pauldelseith/Documents/TUM/Master/UT Austin/Courses/Embedded IoT/HW/Embedded_IoT/inc/LPF.c" \
+"/Users/pauldelseith/Documents/TUM/Master/UT Austin/Courses/Embedded IoT/HW/Embedded_IoT/inc/LaunchPad.c" \
+"/Users/pauldelseith/Documents/TUM/Master/UT Austin/Courses/Embedded IoT/HW/Embedded_IoT/inc/Motor.c" \
+"/Users/pauldelseith/Documents/TUM/Master/UT Austin/Courses/Embedded IoT/HW/Embedded_IoT/inc/PWM.c" \
 "../RSLK_BLEmain.c" \
-"C:/Users/Jerry/Documents/GitHub/Embedded_IoT/inc/SSD1306.c" \
-"C:/Users/Jerry/Documents/GitHub/Embedded_IoT/inc/TimerA1.c" \
-"C:/Users/Jerry/Documents/GitHub/Embedded_IoT/inc/UART0.c" \
-"C:/Users/Jerry/Documents/GitHub/Embedded_IoT/inc/UART1.c" \
-"C:/Users/Jerry/Documents/GitHub/Embedded_IoT/inc/blinker.c" \
-"C:/Users/Jerry/Documents/GitHub/Embedded_IoT/inc/opt3101.c" \
+"/Users/pauldelseith/Documents/TUM/Master/UT Austin/Courses/Embedded IoT/HW/Embedded_IoT/inc/SSD1306.c" \
+"/Users/pauldelseith/Documents/TUM/Master/UT Austin/Courses/Embedded IoT/HW/Embedded_IoT/inc/TimerA1.c" \
+"/Users/pauldelseith/Documents/TUM/Master/UT Austin/Courses/Embedded IoT/HW/Embedded_IoT/inc/UART0.c" \
+"/Users/pauldelseith/Documents/TUM/Master/UT Austin/Courses/Embedded IoT/HW/Embedded_IoT/inc/UART1.c" \
+"/Users/pauldelseith/Documents/TUM/Master/UT Austin/Courses/Embedded IoT/HW/Embedded_IoT/inc/blinker.c" \
+"/Users/pauldelseith/Documents/TUM/Master/UT Austin/Courses/Embedded IoT/HW/Embedded_IoT/inc/opt3101.c" \
 "../startup_msp432p401r_ccs.c" \
 "../system_msp432p401r.c" 
 

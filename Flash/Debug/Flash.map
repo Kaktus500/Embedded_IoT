@@ -1,7 +1,7 @@
 ******************************************************************************
-                  TI ARM Linker PC v20.2.6                     
+                  TI ARM Linker Unix v20.2.6                   
 ******************************************************************************
->> Linked Thu Aug 25 18:43:30 2022
+>> Linked Mon Sep 19 18:09:06 2022
 
 OUTPUT FILE NAME:   <Flash.out>
 ENTRY POINT SYMBOL: "_c_int00_noargs"  address: 00003005
@@ -152,12 +152,12 @@ MODULE SUMMARY
 
        Module                        code    ro data   rw data
        ------                        ----    -------   -------
-    ..\
+    ../
        UART0.obj                     1760    0         24     
     +--+-----------------------------+-------+---------+---------+
        Total:                        1760    0         24     
                                                               
-    .\
+    ./
        FlashProgram.obj              2536    0         0      
        FlashTestMain.obj             2078    0         128    
        Scoreboard.obj                820     0         96     
@@ -168,7 +168,7 @@ MODULE SUMMARY
     +--+-----------------------------+-------+---------+---------+
        Total:                        6988    228       280    
                                                               
-    C:\ti\ccs1200\ccs\tools\compiler\ti-cgt-arm_20.2.6.LTS\lib\rtsv7M4_T_le_v4SPD16_eabi.lib
+    /Applications/ti/ccs1200/ccs/tools/compiler/ti-cgt-arm_20.2.6.LTS/lib/rtsv7M4_T_le_v4SPD16_eabi.lib
        defs.c.obj                    0       0         832    
        memory.c.obj                  672     0         16     
        trgmsg.c.obj                  108     0         576    

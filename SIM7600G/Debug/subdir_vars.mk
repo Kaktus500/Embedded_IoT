@@ -2,8 +2,6 @@
 # Automatically-generated file. Do not edit!
 ################################################################################
 
-SHELL = cmd.exe
-
 # Add inputs and outputs from these tool invocations to the build variables 
 CMD_SRCS += \
 ../msp432p401r.cmd 
@@ -12,14 +10,14 @@ ASM_SRCS += \
 ../osasm.asm 
 
 C_SRCS += \
-C:/Users/Jerry/Documents/GitHub/Embedded_IoT/inc/BSP.c \
-C:/Users/Jerry/Documents/GitHub/Embedded_IoT/inc/Clock.c \
-C:/Users/Jerry/Documents/GitHub/Embedded_IoT/inc/CortexM.c \
-C:/Users/Jerry/Documents/GitHub/Embedded_IoT/inc/Profile.c \
-C:/Users/Jerry/Documents/GitHub/Embedded_IoT/inc/SIM7600G.c \
+/Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/Embedded_IoT/inc/BSP.c \
+/Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/Embedded_IoT/inc/Clock.c \
+/Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/Embedded_IoT/inc/CortexM.c \
+/Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/Embedded_IoT/inc/Profile.c \
+/Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/Embedded_IoT/inc/SIM7600G.c \
 ../SIM7600main.c \
-C:/Users/Jerry/Documents/GitHub/Embedded_IoT/inc/UART0.c \
-C:/Users/Jerry/Documents/GitHub/Embedded_IoT/inc/UART1.c \
+/Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/Embedded_IoT/inc/UART0.c \
+/Users/pauldelseith/Documents/TUM/Master/UT\ Austin/Courses/Embedded\ IoT/HW/Embedded_IoT/inc/UART1.c \
 ../os.c \
 ../startup_msp432p401r_ccs.c \
 ../system_msp432p401r.c 
@@ -85,14 +83,14 @@ ASM_DEPS__QUOTED += \
 "osasm.d" 
 
 C_SRCS__QUOTED += \
-"C:/Users/Jerry/Documents/GitHub/Embedded_IoT/inc/BSP.c" \
-"C:/Users/Jerry/Documents/GitHub/Embedded_IoT/inc/Clock.c" \
-"C:/Users/Jerry/Documents/GitHub/Embedded_IoT/inc/CortexM.c" \
-"C:/Users/Jerry/Documents/GitHub/Embedded_IoT/inc/Profile.c" \
-"C:/Users/Jerry/Documents/GitHub/Embedded_IoT/inc/SIM7600G.c" \
+"/Users/pauldelseith/Documents/TUM/Master/UT Austin/Courses/Embedded IoT/HW/Embedded_IoT/inc/BSP.c" \
+"/Users/pauldelseith/Documents/TUM/Master/UT Austin/Courses/Embedded IoT/HW/Embedded_IoT/inc/Clock.c" \
+"/Users/pauldelseith/Documents/TUM/Master/UT Austin/Courses/Embedded IoT/HW/Embedded_IoT/inc/CortexM.c" \
+"/Users/pauldelseith/Documents/TUM/Master/UT Austin/Courses/Embedded IoT/HW/Embedded_IoT/inc/Profile.c" \
+"/Users/pauldelseith/Documents/TUM/Master/UT Austin/Courses/Embedded IoT/HW/Embedded_IoT/inc/SIM7600G.c" \
 "../SIM7600main.c" \
-"C:/Users/Jerry/Documents/GitHub/Embedded_IoT/inc/UART0.c" \
-"C:/Users/Jerry/Documents/GitHub/Embedded_IoT/inc/UART1.c" \
+"/Users/pauldelseith/Documents/TUM/Master/UT Austin/Courses/Embedded IoT/HW/Embedded_IoT/inc/UART0.c" \
+"/Users/pauldelseith/Documents/TUM/Master/UT Austin/Courses/Embedded IoT/HW/Embedded_IoT/inc/UART1.c" \
 "../os.c" \
 "../startup_msp432p401r_ccs.c" \
 "../system_msp432p401r.c" 

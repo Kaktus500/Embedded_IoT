@@ -67,14 +67,15 @@ policies, either expressed or implied, of the FreeBSD Project.
 
 #include <stdint.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include "msp.h"
-#include "..\inc\CortexM.h"
-#include "..\inc\SysTickInts.h"
-#include "..\inc\LaunchPad.h"
-#include "..\inc\Clock.h"
-#include "..\inc\UART0.h"
-#include "..\inc\UART1.h"
-#include "..\inc\SSD1306_I2C.h"
+#include "../inc/CortexM.h"
+#include "../inc/SysTickInts.h"
+#include "../inc/LaunchPad.h"
+#include "../inc/Clock.h"
+#include "../inc/UART0.h"
+#include "../inc/UART1.h"
+#include "../inc/SSD1306_I2C.h"
 volatile uint32_t Time,MainCount;
 #define LEDOUT (*((volatile uint8_t *)(0x42098040)))
 // P3->OUT is 8-bit port at 0x4000.4C22
@@ -105,7 +106,8 @@ struct msgTemplate{
     char*    msg;
 };
 const struct msgTemplate defaultMsg = {0,0,0,0,0};
-const struct msgTemplate msgSend = {0xbead, 0xfeed, 5, 5, "seeed"}; // 's' = 115, 'e' = 101, 'd' = 100
+struct msgTemplate msgs[2];
+struct msgTemplate msgSend = {0xbead, 0xfeed, 5, 5, "seeed"}; // 's' = 115, 'e' = 101, 'd' = 100
 const struct msgTemplate msgDebug = {0xfeed, 0xfeed, 5, 17, "seeed"}; // for debug
 const struct msgTemplate msgAck  = {0xfeed, 0xbead, 0xff, 5, "seeed"}; // acknowledgment
 const struct msgTemplate msgBroadcast = {0xfeed, 0xfeed, 0xaa, 5, "seeed"}; // broadcast message
@@ -114,7 +116,7 @@ const struct msgTemplate msgRespond2 = {0xfeed, 0xfeed, 0xfe, 5, "seeed"}; // br
 struct msgTemplate msgReceived;
 char* receiveBuffer;
 int   validMsg;
-const uint16_t idx[3] = {0xfeed, 0xbead, 0xcafe};
+uint16_t idx[3] = {0xfeed, 0xbead, 0xcafe};
 
 uint16_t thisID = 0xfeed;
 int deviceCnt = 1;
@@ -131,20 +133,20 @@ msgAck.dst_address = 0;
 msgAck.crc = 76; //valid
 msgAck.header = 255; //acknowledge*/
 
-void Send_Msg(struct msgTemplate msgSend){
-  HC12data = (msgSend.dst_address & 0xFF);
+void Send_Msg(struct msgTemplate msgSend1){
+  HC12data = (msgSend1.dst_address & 0xFF);
   UART1_OutChar(HC12data);
-  HC12data = (msgSend.dst_address & 0xFF00) >> 8;
+  HC12data = (msgSend1.dst_address & 0xFF00) >> 8;
   UART1_OutChar(HC12data);
-  HC12data = (msgSend.src_address & 0xFF);
+  HC12data = (msgSend1.src_address & 0xFF);
   UART1_OutChar(HC12data);
-  HC12data = (msgSend.src_address & 0xFF00) >> 8;
+  HC12data = (msgSend1.src_address & 0xFF00) >> 8;
   UART1_OutChar(HC12data);
-  HC12data = msgSend.header;
+  HC12data = msgSend1.header;
   UART1_OutChar(HC12data);
-  HC12data = msgSend.crc;
+  HC12data = msgSend1.crc;
   UART1_OutChar(HC12data);
-  UART1_OutString(msgSend.msg);
+  UART1_OutString(msgSend1.msg);
 };
 
 void Read_Msg(char* msgRead){
@@ -160,6 +162,20 @@ void Read_Msg(char* msgRead){
        cnt++;
        simple_delay(10000);
     }
+}
+
+uint8_t compute_crc(char* msg, uint8_t header){
+    uint8_t cnt_inv = 0;
+    int msgSum = 0;
+
+    while(header > 0){
+        msgSum += msg[cnt_inv];
+        header--;
+        cnt_inv++;
+        }
+    //crc check
+    msgSum = msgSum % 19;
+    return msgSum;
 }
 
 int Parse_Check_Msg(char* msgRead){
@@ -218,6 +234,7 @@ int Parse_Check_Msg(char* msgRead){
     }
     //crc check
     msgSum = msgSum % 19;
+    msgSum = compute_crc(msgReceived.msg, cnt);
     if(msgSum != msgReceived.crc)
         return 0;
 
@@ -227,50 +244,22 @@ int Parse_Check_Msg(char* msgRead){
 void SysTick_Handler(void){
   uint8_t in;
   Time = Time + 1;
-  uint8_t ThisInput = LaunchPad_Input();   // either button
+  uint8_t ThisInput = LaunchPad_Input();   // get input from either button
   if(ThisInput && (!btnLatch)){
       btnLatch = 1;
   }
 
-  if(ThisInput && !oldInput && !sendFlg)
+  if(ThisInput==0x01 && !oldInput && !sendFlg){ // button 1
       sendFlg = 1;
-  else if(ThisInput && !oldInput && sendFlg)
+  }else if(ThisInput==0x02 && !oldInput && !sendFlg){ // button 2
+      sendFlg = 2;
+  }else if(ThisInput && !oldInput && sendFlg){
       sendFlg = 0;
-
-  /*if(sendFlg){
-    if((Time%100) == 0){ // 1 Hz
-        //LaunchPad_Output(0);
-      if(seqInd == 0){
-          HC12data = '0';
-          Message = 0;
-          LaunchPad_Output(4);
-          UART1_OutChar(HC12data);
-          seqInd++;
-          Flag = 1;
-      }else if(seqInd == 1){
-          HC12data = '1';
-          Message = 1;
-          LaunchPad_Output(4);
-          UART1_OutChar(HC12data);
-          seqInd++;
-          Flag = 1;
-      }else if(seqInd == 2){
-          HC12data = '2';
-          Message = 2;
-          LaunchPad_Output(4);
-          UART1_OutChar(HC12data);
-          seqInd = 0;
-          Flag = 1;
-      }else{
-          seqInd = 0;
-          btnLatch = 0;
-      }
-    }
-  }*/
+  }
   if(sendFlg){
       if((Time%100) == 0){ // 1 Hz
         if(seqInd == 0){
-            Send_Msg(msgSend);
+            Send_Msg(msgs[sendFlg-1]);
             Message = 0;
             LaunchPad_Output(4);
             //UART1_OutChar(HC12data);
@@ -279,7 +268,7 @@ void SysTick_Handler(void){
             waitFlg = 1;
         }else if(seqInd == 1){
             //HC12data = '1';
-            Send_Msg(msgSend);
+            Send_Msg(msgs[sendFlg-1]);
             Message = 1;
             LaunchPad_Output(4);
             //UART1_OutChar(HC12data);
@@ -288,7 +277,7 @@ void SysTick_Handler(void){
             waitFlg = 1;
         }else if(seqInd == 2){
             //HC12data = '2';
-            Send_Msg(msgSend);
+            Send_Msg(msgs[sendFlg-1]);
             Message = 2;
             LaunchPad_Output(4);
             //UART1_OutChar(HC12data);
@@ -299,6 +288,7 @@ void SysTick_Handler(void){
             seqInd = 0;
             btnLatch = 0;
         }
+        msgSend = msgs[sendFlg-1];
       }
     }
   msgReceived = defaultMsg;
@@ -405,6 +395,28 @@ void HC12_ReadAllInput(void){uint8_t in;
   }
 }
 
+void fill_dest_msgs(uint16_t id){
+    int jj = 0;
+    for(int ii=0; ii<3; ii++){
+        if(idx[ii]!=id){
+            msgs[jj].dst_address = idx[ii];
+            jj++;
+        }
+    }
+}
+
+void init_msgs(){
+    msgs[0].header = 5;
+    msgs[0].src_address = thisID;
+    msgs[0].msg = "seeed";
+    msgs[0].crc = compute_crc(msgs[0].msg, msgs[0].header);
+    msgs[1].header = 5;
+    msgs[1].src_address = thisID;
+    msgs[1].msg = "seeed";
+    msgs[1].crc = compute_crc(msgs[1].msg, msgs[1].header);
+    fill_dest_msgs(thisID);
+}
+
 void HC12_Init(uint32_t baud){
   P3->SEL0 &= ~0x01;
   P3->SEL1 &= ~0x01;    // configure P3.0 as GPIO
@@ -472,6 +484,7 @@ void main(void){int num=0;
           break;
       }
   }
+  init_msgs();
   //
   SSD1306_OutString(" RF_XMT init done\n");
   SSD1306_OutString("\nHold switch for 1s\n");
