@@ -105,18 +105,21 @@ struct msgTemplate{
     char*    msg;
 };
 const struct msgTemplate defaultMsg = {0,0,0,0,0};
-const struct msgTemplate msgSend = {0xbead, 0xfeed, 5, 5, "seeed"}; // 's' = 115, 'e' = 101, 'd' = 100
-const struct msgTemplate msgDebug = {0xfeed, 0xfeed, 5, 17, "seeed"}; // for debug
+//const struct msgTemplate msgSend = {0xbead, 0xfeed, 5, 5, "seeed"}; // 's' = 115, 'e' = 101, 'd' = 100
+//const struct msgTemplate msgSend2 = {0xcafe, 0xfeed, 5, 11, "deeef"}; // 'f' = 102
+const struct msgTemplate msgDebug = {0xbeaf, 0xfeed, 5, 5, "seeed"}; // for debug
 const struct msgTemplate msgAck  = {0xfeed, 0xbead, 0xff, 5, "seeed"}; // acknowledgment
 const struct msgTemplate msgBroadcast = {0xfeed, 0xfeed, 0xaa, 5, "seeed"}; // broadcast message
 const struct msgTemplate msgRespond1 = {0xfeed, 0xfeed, 0xfd, 5, "seeed"}; // broadcast respond for the second device
 const struct msgTemplate msgRespond2 = {0xfeed, 0xfeed, 0xfe, 5, "seeed"}; // broadcast respond for the third device
-struct msgTemplate msgReceived;
+struct msgTemplate msgReceived, msgSendCpy;
+struct msgTemplate msgSend, msgSend2;
 char* receiveBuffer;
 int   validMsg;
 const uint16_t idx[3] = {0xfeed, 0xbead, 0xcafe};
 
 uint16_t thisID = 0xfeed;
+int thisIDptr = 0;
 int deviceCnt = 1;
 
 /*msgSend.src_address = 0; // source = board 0
@@ -188,7 +191,7 @@ int Parse_Check_Msg(char* msgRead){
     msgReceived.crc = msgRead[5];
 
     if(msgReceived.header == 0xff){
-        if(msgReceived.crc == msgSend.crc)
+        if(msgReceived.crc == msgSendCpy.crc)
             return 2;
         else
             return 0;
@@ -271,6 +274,7 @@ void SysTick_Handler(void){
       if((Time%100) == 0){ // 1 Hz
         if(seqInd == 0){
             Send_Msg(msgSend);
+            msgSendCpy = msgSend;
             Message = 0;
             LaunchPad_Output(4);
             //UART1_OutChar(HC12data);
@@ -279,7 +283,8 @@ void SysTick_Handler(void){
             waitFlg = 1;
         }else if(seqInd == 1){
             //HC12data = '1';
-            Send_Msg(msgSend);
+            Send_Msg(msgSend2);
+            msgSendCpy = msgSend2;
             Message = 1;
             LaunchPad_Output(4);
             //UART1_OutChar(HC12data);
@@ -288,7 +293,8 @@ void SysTick_Handler(void){
             waitFlg = 1;
         }else if(seqInd == 2){
             //HC12data = '2';
-            Send_Msg(msgSend);
+            Send_Msg(msgDebug);
+            msgSendCpy = msgDebug;
             Message = 2;
             LaunchPad_Output(4);
             //UART1_OutChar(HC12data);
@@ -307,6 +313,8 @@ void SysTick_Handler(void){
       printf("%s", receiveBuffer);
 
   validMsg = Parse_Check_Msg(receiveBuffer);
+  for(int ii = 0; ii < 256; ii++)
+      *(receiveBuffer+ii) = 0;
   if(validMsg == 1){
       //if((Time/100)%2)
           //msgReceived.dst_address = 0xffff;
@@ -341,19 +349,19 @@ void SysTick_Handler(void){
   }
   else if(validMsg == 4){
       thisID = idx[1];
+      thisIDptr = 1;
       Message = 8;
       Flag = 1;
       LaunchPad_Output(1);
   }
   else if(validMsg == 5){
       thisID = idx[2];
+      thisIDptr = 2;
       Message = 9;
       Flag = 1;
       LaunchPad_Output(1);
   }
   validMsg = 0;
-  for(int ii = 0; ii < 256; ii++)
-      *(receiveBuffer+ii) = 0;
 
   if(waitFlg){
       waitCnt++;
@@ -471,6 +479,42 @@ void main(void){int num=0;
           }
           break;
       }
+  }
+  msgSend.src_address  = thisID;
+  msgSend2.src_address = thisID;
+  if(thisIDptr == 0){
+      msgSend.dst_address  = idx[1];
+      msgSend.header       = 5;
+      msgSend.crc          = 5;
+      msgSend.msg          = "seeed";
+      msgSend2.dst_address = idx[2];
+      msgSend2.header      = 5;
+      msgSend2.crc         = 11;
+      msgSend2.msg         = "deeef";
+  }
+  else if(thisIDptr == 1){
+      msgSend.dst_address  = idx[0];
+      msgSend.header       = 5;
+      msgSend.crc          = 4;
+      msgSend.msg          = "aarrr";
+      msgSend2.dst_address = idx[2];
+      msgSend2.header      = 5;
+      msgSend2.crc         = 6;
+      msgSend2.msg         = "aarrt";
+  }
+  else if(thisIDptr == 2){
+      msgSend.dst_address  = idx[0];
+      msgSend.header       = 5;
+      msgSend.crc          = 8;
+      msgSend.msg          = "ccrrr";
+      msgSend2.dst_address = idx[1];
+      msgSend2.header      = 5;
+      msgSend2.crc         = 10;
+      msgSend2.msg         = "ddrrr";
+  }
+  else{
+      msgSend  = defaultMsg;
+      msgSend2 = defaultMsg;
   }
   //
   SSD1306_OutString(" RF_XMT init done\n");
