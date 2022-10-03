@@ -152,8 +152,12 @@ void Send_Msg(struct msgTemplate msgSend){
 
 void Read_Msg(char* msgRead){
     uint8_t in;
-    in = UART1_InCharNonBlock();
+    //uint32_t test;
+    //test = UART1_InStatus();
+    //in = UART1_InCharNonBlock();
     uint8_t cnt = 0;
+    //if(test > 10){
+        in = UART1_InCharNonBlock();
      while(in){
        if(cnt < 256){
            *msgRead = in;
@@ -161,8 +165,9 @@ void Read_Msg(char* msgRead){
        }
        in = UART1_InCharNonBlock();
        cnt++;
-       simple_delay(10000);
-    }
+       simple_delay(5000);
+     }
+    //}
 }
 
 int Parse_Check_Msg(char* msgRead){
@@ -271,9 +276,10 @@ void SysTick_Handler(void){
     }
   }*/
   if(sendFlg){
-      if((Time%100) == 0){ // 1 Hz
+      if((Time%100) == 0){ // 3 Hz
         if(seqInd == 0){
-            Send_Msg(msgSend);
+            if(!waitFlg)
+                Send_Msg(msgSend);
             msgSendCpy = msgSend;
             Message = 0;
             LaunchPad_Output(4);
@@ -283,7 +289,8 @@ void SysTick_Handler(void){
             waitFlg = 1;
         }else if(seqInd == 1){
             //HC12data = '1';
-            Send_Msg(msgSend2);
+            if(!waitFlg)
+                Send_Msg(msgSend2);
             msgSendCpy = msgSend2;
             Message = 1;
             LaunchPad_Output(4);
@@ -293,7 +300,8 @@ void SysTick_Handler(void){
             waitFlg = 1;
         }else if(seqInd == 2){
             //HC12data = '2';
-            Send_Msg(msgDebug);
+            if(!waitFlg)
+                Send_Msg(msgDebug);
             msgSendCpy = msgDebug;
             Message = 2;
             LaunchPad_Output(4);
@@ -324,7 +332,7 @@ void SysTick_Handler(void){
       Send_Msg(msgReceived);
       Message = 3;
       Flag = 1;
-      LaunchPad_Output(1);
+      //LaunchPad_Output(1);
   }
   else if(validMsg == 2){
       Message = 6;
