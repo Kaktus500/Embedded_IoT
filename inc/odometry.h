@@ -137,7 +137,7 @@ int32_t Odometry_GetAngle(void);
  * @note Typically Odometry_Update() is being called periodically (so LCount and RCount are less than 30)
  * @brief Get the current robot position
  */
-void Odometry_Get(int32_t *x, int32_t *y, int32_t *theta);
+void Odometry_Get(int32_t *x, int32_t *y, int32_t *theta, int32_t *speed);
 
 
 /**

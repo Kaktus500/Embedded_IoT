@@ -147,6 +147,7 @@ P3.10 P5.5 UNUSED     NA        P4.10 P3.7  UNUSED      OUT(see R75)
 //enum outputtype CurrentOutputType = OLED;
 extern int32_t MyX,MyY;               // position in 0.0001cm
 extern int32_t MyTheta;               // direction units 2*pi/16384 radians (-pi to +pi)
+extern int32_t MySpeed;
 extern enum RobotState Action;
 
 // edit sl_common.h file with access point information
@@ -212,7 +213,7 @@ void Racing(void){
 }
 
 #define WEBPAGE "maker.ifttt.com"
-#define REQUEST "POST /trigger/log_data/with/key/m1-J-mZVpGuSV4h4tz_ypiI11Z6XrzHR3xBJnoUFIPo HTTP/1.1\nHost: maker.ifttt.com\nUser-Agent: CCS/9.0.1\nConnection: close\nContent-Type: application/json\nContent-Length: "
+#define REQUEST "POST /trigger/log_data/with/key/cl0vEIWmXSk2D9gaicXRgW HTTP/1.1\nHost: maker.ifttt.com\nUser-Agent: CCS/9.0.1\nConnection: close\nContent-Type: application/json\nContent-Length: "
 //#define REQUEST "POST /trigger/log_data/with/key/1234567890abcdef1234567890abcdef HTTP/1.1\nHost: maker.ifttt.com\nUser-Agent: CCS/9.0.1\nConnection: close\nContent-Type: application/json\nContent-Length: "
 // 1) create an account on IFTTT (record your key)
 // 2) create an IFTTT applet called log_data that triggers on Webhooks and then adds a row to your googlesheet
@@ -234,7 +235,8 @@ void LogData(int32_t x, int32_t y, int32_t th){
   strcat(Value1String,LogMessage);
   sprintf(LogMessage,"%d",y/1000); // 1 mm
   strcat(Value2String,LogMessage);
-  sprintf(LogMessage,"%d",(180*th)/8192); // 1 deg
+  //sprintf(LogMessage,"%d",(180*th)/8192); // 1 deg
+  sprintf(LogMessage,"%d",th); // 1 um/s
   strcat(Value3String,LogMessage);
   DataCount++;
 }
@@ -329,23 +331,23 @@ int main(void){int32_t retVal;
   while(1){
     ClearData();
     Odometry_Init(0,0,NORTH); UpdatePosition(); // facing North
-    Display(); LogData(MyX,MyY,MyTheta);
+    Display(); LogData(MyX,MyY,MySpeed);
     ForwardUntilYStart(400000);       // 0,40 cm
-    RacingStatus = 0; while(RacingStatus==0){}; LogData(MyX,MyY,MyTheta); Display();
+    RacingStatus = 0; while(RacingStatus==0){}; LogData(MyX,MyY,MySpeed); Display();
     SoftLeftUntilThStart(WEST);       // 180 or -180
-    RacingStatus = 0; while(RacingStatus==0){}; LogData(MyX,MyY,MyTheta); Display();
+    RacingStatus = 0; while(RacingStatus==0){}; LogData(MyX,MyY,MySpeed); Display();
     ForwardUntilXStart(-400000);      // -40,40 cm
-    RacingStatus = 0; while(RacingStatus==0){}; LogData(MyX,MyY,MyTheta); Display();
+    RacingStatus = 0; while(RacingStatus==0){}; LogData(MyX,MyY,MySpeed); Display();
     SoftLeftUntilThStart(SOUTH);      // -90
-    RacingStatus = 0; while(RacingStatus==0){}; LogData(MyX,MyY,MyTheta); Display();
+    RacingStatus = 0; while(RacingStatus==0){}; LogData(MyX,MyY,MySpeed); Display();
     ForwardUntilYStart(0);            // -40,0 cm
-    RacingStatus = 0; while(RacingStatus==0){}; LogData(MyX,MyY,MyTheta); Display();
+    RacingStatus = 0; while(RacingStatus==0){}; LogData(MyX,MyY,MySpeed); Display();
     SoftLeftUntilThStart(EAST);       // 0
-    RacingStatus = 0; while(RacingStatus==0){}; LogData(MyX,MyY,MyTheta); Display();
+    RacingStatus = 0; while(RacingStatus==0){}; LogData(MyX,MyY,MySpeed); Display();
     ForwardUntilXStart(0);            // 0,0 cm
-    RacingStatus = 0; while(RacingStatus==0){}; LogData(MyX,MyY,MyTheta); Display();
+    RacingStatus = 0; while(RacingStatus==0){}; LogData(MyX,MyY,MySpeed); Display();
     SoftLeftUntilThStart(NORTH);      // 90
-    RacingStatus = 0; while(RacingStatus==0){}; Motor_Stop(); LogData(MyX,MyY,MyTheta); Display();
+    RacingStatus = 0; while(RacingStatus==0){}; Motor_Stop(); LogData(MyX,MyY,MySpeed); Display();
     SendData();
     StopUntilBumperTouched();
   }

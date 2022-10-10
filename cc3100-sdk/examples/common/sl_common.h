@@ -79,8 +79,11 @@ extern "C" {
 #define SEC_TYPE   SL_SEC_TYPE_WPA
 //#define SSID_NAME       "accesspt"    /* Access point name to connect to. */
 //#define PASSKEY         "password"   /* Password in case of secure AP */
-#define SSID_NAME          "ValvanoJonathaniPhone"
-#define PASSKEY            "asdfghjkl12#"
+//#define SSID_NAME          "SpectrumSetup-91"
+//#define PASSKEY            "entirenumber538"
+#define SSID_NAME          "PingKami"
+#define PASSKEY            "of495768"
+
 
 #define PASSKEY_LEN     pal_Strlen(PASSKEY)  /* Password length in case of secure AP */
 /* Configuration of the device when it comes up in AP mode */

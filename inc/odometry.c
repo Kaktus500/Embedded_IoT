@@ -69,14 +69,18 @@ int32_t L;      // distance from left wheel to pivot point
 int32_t R;      // distance from right wheel to pivot point
 int32_t dtheta; // change in direction 2*pi/16384 radians (-pi to +pi)
 int32_t dz;     // change in distance 0.0001
+//Jerry
+int32_t RobotSpeed; // speed getting from dz/40ms
+///////
 
 
 #define w2 (W/2) // used for rounding
 
 void Odometry_Init(int32_t initx, int32_t inity, int32_t initTheta){
-  Robotx =initx;
+  Robotx = initx;
   Roboty = inity;
   Robottheta = initTheta;
+  RobotSpeed = 0;
 }
 void Odometry_Update(int32_t LCount, int32_t RCount){int32_t L2; int32_t absLr,absRr;
   Lr = (LCount*C)/N;      // 0.0001cm
@@ -130,6 +134,11 @@ void Odometry_Update(int32_t LCount, int32_t RCount){int32_t L2; int32_t absLr,a
   if(Robottheta<-PI)Robottheta=Robottheta+TWOPI;
   Robotx = Robotx + (dz*fixed_cos2(Robottheta))/65536;  // 0.0001cm
   Roboty = Roboty + (dz*fixed_sin2(Robottheta))/65536;  // 0.0001cm  second part of move
+  //Jerry
+  if(dz >= 0)
+      RobotSpeed = (dz*5)/2; //um/s
+  else
+      RobotSpeed = (-dz*5)/2;
 }
 int32_t Odometry_GetX(void){
   return Robotx;
@@ -140,11 +149,15 @@ int32_t Odometry_GetY(void){
 int32_t Odometry_GetAngle(void){
   return Robottheta;
 }
+int32_t Odometry_GetSpeed(void){
+    return RobotSpeed;
+}
 
-void Odometry_Get(int32_t *x, int32_t *y, int32_t *theta){
+void Odometry_Get(int32_t *x, int32_t *y, int32_t *theta, int32_t *speed){
   *x = Robotx;
   *y = Roboty;
   *theta = Robottheta;
+  *speed = RobotSpeed;
 }
 
 
@@ -161,6 +174,7 @@ int32_t LastRightSteps;        // number of tachometer steps of right wheel (uni
 int32_t TotalRightSteps;       // number of tachometer steps of right wheel (units of 220/360 = 0.61 mm traveled)
 int32_t MyX,MyY;               // position in 0.0001cm
 int32_t MyTheta;               // direction units 2*pi/16384 radians (-pi to +pi)
+int32_t MySpeed;               // speed in um/s
 int32_t Error; // in 0.0001cm or in 2*pi/16384 radians
 
 
@@ -174,7 +188,7 @@ void UpdatePosition(void){
   LeftSteps = TotalLeftSteps-LastLeftSteps;
   RightSteps = TotalRightSteps-LastRightSteps;
   Odometry_Update(LeftSteps,RightSteps);
-  Odometry_Get(&MyX,&MyY,&MyTheta);
+  Odometry_Get(&MyX,&MyY,&MyTheta,&MySpeed);
   LastLeftSteps = TotalLeftSteps;
   LastRightSteps = TotalRightSteps;
 }
